@@ -10,18 +10,7 @@ with open ("MoodyRancher.json", 'r') as df:
 
 for moodyrancher in moodyrancher_dict:
 	speedMph = float(moodyrancher['speed']) * 3.28084 * 3600 / 5280
-	print(moodyrancher['timestamp'])
-
-
-
-
-
-
-	"""print(moodyrancher['altitude'])
-	print(moodyrancher['distance'])
-	print(moodyrancher['heart_rate'])
-	print(moodyrancher['speed'])
-	print(moodyrancher['timestamp'])"""
-	#print(speedMph)
-
-
+	if speedMph > 20:
+		print(moodyrancher['timestamp'])
+		print(speedMph)
+		print(moodyrancher['heart_rate'])
