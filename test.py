@@ -9,8 +9,15 @@ with open ("MoodyRancher.json", 'r') as df:
 	moodyrancher_dict = json.load(df)
 
 for moodyrancher in moodyrancher_dict:
+	timestamp = str(moodyrancher['timestamp'])	
 	speedMph = float(moodyrancher['speed']) * 3.28084 * 3600 / 5280
-	if speedMph > 20:
-		print(moodyrancher['timestamp'])
-		print(speedMph)
-		print(moodyrancher['heart_rate'])
+	print(timestamp)
+	print(speedMph)
+
+	with open ('milesperhour.json' , 'w') as outfile:
+		mph_dump = { "timestamp" : timestamp,
+	"speedMph" : speedMph
+	}
+		json_dump = json.dumps(mph_dump, outfile, sort_keys = True, indent = 4, ensure_ascii = False)
+
+
