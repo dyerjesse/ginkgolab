@@ -2,7 +2,7 @@ import json as json
 import pandas as pd
 
 #DataFrame settings
-pd.set_option('display.max_rows', 50)
+pd.set_option('display.max_rows', 1000)
 pd.set_option('display.max_columns', 50)
 
 #Read JSON
@@ -45,7 +45,7 @@ data['gradient(%)'] = (data['rise(feet)'] / data['run(feet)'] * 100)
 #maxhr = input('What age are you in years?')
 #Heart rate
 data['heart rate'] = data['heart_rate']
-data['percent of max hr'] = (data['heart_rate'] / 194)
+data['hr(%)'] = ((data['heart_rate'] / 194) * 100)
 
 #Print DataFrame
 print data	
