@@ -48,4 +48,10 @@ data['heart rate'] = data['heart_rate']
 data['hr(%)'] = ((data['heart_rate'] / 194) * 100)
 
 #Print DataFrame
-print data	
+print data
+#Export DataFrame
+data.to_json('evolve.json', orient='records', lines=True)
+data.to_json('evolve.json', orient='records', lines=True)
+with open ('t.json', 'w') as f :
+	f.write(data.to_json(orient='records', lines=True))
+
