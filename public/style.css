@@ -111,6 +111,9 @@
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
     opacity: .95;
+    -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.67);
+	-moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.67);
+	box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.67);
 } 
 
 
@@ -121,7 +124,6 @@
             color: White; 
             font-family: 'Raleway', sans-serif;
             font-size: 28px;
-
 } 
 
 .Project-frame {
