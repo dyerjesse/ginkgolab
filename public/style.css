@@ -35,7 +35,7 @@
 .meet {
 	animation-name: meet;
 	font-family: 'Raleway', sans-serif;
-	font-size: 36px;
+	font-size: 30px;
 	animation-duration: 10s;
 	position: center;
 	text-align: center;
@@ -124,6 +124,14 @@
             color: White; 
             font-family: 'Raleway', sans-serif;
             font-size: 28px;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255,102,203, 0.5)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E");
+}
+
+.custom-toggler .navbar-toggler {
+  border-color: white;
 } 
 
 .Project-frame {
