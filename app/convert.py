@@ -2,11 +2,11 @@ import json as json
 import pandas as pd
 
 #DataFrame settings
-pd.set_option('display.max_rows', 10)
+pd.set_option('display.max_rows', 50)
 pd.set_option('display.max_columns', 50)
 
 #Read JSON
-data = pd.read_json(r'MoodyRancher.json')
+data = pd.read_json(r'gcloop.json')
 
 #This is where we convert our data. Version 1.0.0 _ 6/28/2020
 #Time.
@@ -47,11 +47,15 @@ data['gradient_%'] = (data['rise_feet'] / data['run_feet'] * 100)
 data['heart_rate'] = data['heart_rate']
 data['hr_%'] = ((data['heart_rate'] / 194) * 100)
 
-#Print DataFrame
+
+#Replace inf and na values with 0.
+
+####
+
 print data
+
 #Export DataFrame
-#data.to_json('con.json', orient='records', lines=True)
-data.to_csv('con.csv')
+data.to_csv('convert.csv')
 
 
 
