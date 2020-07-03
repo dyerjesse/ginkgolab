@@ -1,12 +1,13 @@
 {
-	"name" : "ginkolab.app",
-	"version" : "1.0.0",
-	"scripts" : {
-		"start" : "node server.js"
+	"name": "ginkolab.app",
+	"version": "1.0.0",
+	"scripts": {
+		"start": "node server.js"
 	},
-	"dependencies" : {
-		"express" : "4.13.3"
+	"dependencies": {
+		"csv-parser": "^2.3.3",
+		"express": "4.13.3"
 	},
-	"author" : "Jesse Dyer",
-	"License" : "Jesse Dyer 2020"
+	"author": "Jesse Dyer",
+	"License": "Jesse Dyer 2020"
 }
