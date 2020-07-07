@@ -1,6 +1,7 @@
 import json as json
 import pandas as pd
 import datetime as dt
+from operator import truediv
 
 #DataFrame settings
 pd.set_option('display.max_rows', 50)
@@ -31,6 +32,7 @@ data['distance_total_km'] = (data['distance'] / 1000)
 data['distance_interval_miles'] = (data['distance'].diff() * 3.28084 / 5280)
 data['distance_interval_km'] = (data['distance'].diff() / 1000)
 
+
 #Elevation and altitude.
 data['elevation_meters'] = data['altitude']
 data['elevation_feet'] = (data['altitude'] * 3.28084)
@@ -46,42 +48,97 @@ data['real_cadence'] = (data['cadence'] * 2)
 data['steps_per_second'] = (data['real_cadence'] / 60)
 data['steps_per_interval'] = data['steps_per_second'] * data['time_interval_float']
 data['stride_length'] = (data['run_meters'] / data['steps_per_interval'])
-#average stride length printed below
+#average stride length printed below.
 
-
-#Predicted gradient.
-data['gradient_%'] = (data['rise_feet'] / data['run_feet'] * 100)
-
+#Calculate total number of rows.
 total_rows = []
 count = 0
 for row in data['altitude'].iteritems() :
 	count = count + 1
-	#print(count)
 	total_rows.append(count)
-
-#Number of rows.
 num_rows = float((max(total_rows)))
 
-#maxhr = input('What age are you in years?')
 #Heart rate
 data['heart_rate'] = data['heart_rate']
 data['hr_%'] = ((data['heart_rate'] / 194) * 100)
 data['average_hr'] = (data['heart_rate'].sum() / num_rows)
+
+#Calculate average hr.
 percent_average_hr = ((data['average_hr'] / 194) * 100) #print below
-average_stride_length = (data['stride_length'].sum() / num_rows)
+
+#Calculate average stride length.
+average_stride_length = (data['stride_length'].sum() / num_rows) #print below
 
 
-#Replace inf and na values with 0.
-#data = data[]
+#Calculate total number of rows.
+total_rows = []
+count = 0
+for row in data['altitude'].iteritems() :
+	count = count + 1
+	total_rows.append(count)
+num_rows = float((max(total_rows)))
 
+#Calculate total ascent.
+total_gain = []
+gain = 0
+for row, value in data['rise_meters'].iteritems():
+	if value > 0 :
+		gain = gain + value
+		total_gain.append(gain)
+total_evelvation_gain = (max(total_gain))
+
+#Calculate total descent.
+total_descent = []
+descent = 0
+for row, value in data['rise_meters'].iteritems():
+	if value < 0 :
+		descent = descent + value
+		total_descent.append(descent)
+total_evelvation_loss = (min(total_descent))
+
+#Calculate total elevation change.
+total_elevation_change = total_evelvation_gain + total_evelvation_loss
+
+#Calculate gradient.
+data['run_feet'].fillna(0, inplace=True)
+data['rise_feet'].fillna(0, inplace=True)
+
+rise_ten_interval = []
+run_ten_interval = []
+rise_count = 0.1
+run_count = 0.1
+
+for row, value in data['rise_feet'].iteritems():
+	rise_count = rise_count + value
+	if row % 2 == 0:
+		rise_ten_interval.append(rise_count)
+		rise_ten_interval.append(0.001)
+		rise_count = 0.1
+
+for row, value in data['run_feet'].iteritems():
+	run_count = run_count + value
+	if row % 2 == 0:
+		run_ten_interval.append(run_count)
+		run_ten_interval.append(.001)
+		run_count = 0.1
+
+gradient = list(map(truediv, rise_ten_interval, run_ten_interval))
+data['gradient_%'] = gradient
+data['gradient_%'] = data['gradient_%'] * 100
+data['gradient_%'] = data['gradient_%'].replace(100, "na")
+
+#Print datatypes
+print(data.dtypes)		
 ####
 print(data)
 print("Your average heart rate for this activity was", max(data['average_hr']),"bpm.")
 print("Average percent of your maximum heart rate : ",  max(percent_average_hr), "%")
 print("Your average stride length for this activity was",average_stride_length,"meters.")
+print("Your total ascent during this activity was",total_evelvation_gain,"meters.")
+print("Your total descent during this activity was",total_evelvation_loss,"meters.")
+print("Your total elevation change during this activity was",total_elevation_change,"meters.")
+
 
 #Export DataFrame
 data.to_csv('convert.csv')
-
-
-
+##END##
