@@ -8,7 +8,7 @@ pd.set_option('display.max_rows', 50)
 pd.set_option('display.max_columns', 50)
 
 #Read JSON
-data = pd.read_json(r'5k.json')
+data = pd.read_json(r'gcloopbike.json')
 
 #This is where we convert our data. Version 1.0.0 _ 6/28/2020
 #Time.
@@ -44,11 +44,15 @@ data['run_meters'] = data['distance'].diff()
 data['run_feet'] = (data['distance'].diff() * 3.28084)
 
 #Cadence.
-data['real_cadence'] = (data['cadence'] * 2)
-data['steps_per_second'] = (data['real_cadence'] / 60)
-data['steps_per_interval'] = data['steps_per_second'] * data['time_interval_float']
-data['stride_length'] = (data['run_meters'] / data['steps_per_interval'])
-#average stride length printed below.
+if 'cadence' in data:
+	print("Cadence was recorded for this activity.")
+	data['real_cadence'] = (data['cadence'] * 2)
+	data['steps_per_second'] = (data['real_cadence'] / 60)
+	data['steps_per_interval'] = data['steps_per_second'] * data['time_interval_float']
+	data['stride_length'] = (data['run_meters'] / data['steps_per_interval'])
+#Average stride length printed below.
+else:
+	print("No cadence was recorded for this activity.")
 
 #Calculate total number of rows.
 total_rows = []
@@ -67,7 +71,6 @@ data['average_hr'] = (data['heart_rate'].sum() / num_rows)
 percent_average_hr = ((data['average_hr'] / 194) * 100) #print below
 
 #Calculate average stride length.
-average_stride_length = (data['stride_length'].sum() / num_rows) #print below
 
 
 #Calculate total number of rows.
@@ -97,7 +100,7 @@ for row, value in data['rise_meters'].iteritems():
 total_evelvation_loss = (min(total_descent))
 
 #Calculate total elevation change.
-total_elevation_change = total_evelvation_gain + total_evelvation_loss
+total_elevation_change = data['altitude'].max() - data['altitude'].min()
 
 #Calculate gradient.
 data['run_feet'].fillna(0, inplace=True)
@@ -110,16 +113,16 @@ run_count = 0.1
 
 for row, value in data['rise_feet'].iteritems():
 	rise_count = rise_count + value
-	if row % 2 == 0:
+	if row % 1 == 0:
 		rise_ten_interval.append(rise_count)
-		rise_ten_interval.append(0.001)
+		#rise_ten_interval.append(0.001)
 		rise_count = 0.1
 
 for row, value in data['run_feet'].iteritems():
 	run_count = run_count + value
-	if row % 2 == 0:
+	if row % 1 == 0:
 		run_ten_interval.append(run_count)
-		run_ten_interval.append(.001)
+		#run_ten_interval.append(.001)
 		run_count = 0.1
 
 gradient = list(map(truediv, rise_ten_interval, run_ten_interval))
@@ -133,10 +136,45 @@ print(data.dtypes)
 print(data)
 print("Your average heart rate for this activity was", max(data['average_hr']),"bpm.")
 print("Average percent of your maximum heart rate : ",  max(percent_average_hr), "%")
-print("Your average stride length for this activity was",average_stride_length,"meters.")
 print("Your total ascent during this activity was",total_evelvation_gain,"meters.")
 print("Your total descent during this activity was",total_evelvation_loss,"meters.")
 print("Your total elevation change during this activity was",total_elevation_change,"meters.")
+
+#Calculate and print average stride length.
+if 'stride_length' in data:
+	average_stride_length = (data['stride_length'].sum() / num_rows) #print below
+	print("Your average stride length for this activity was",average_stride_length,"meters.")
+else :
+	print("There is no stride length data.")
+
+#Scoring starts. V1.0.0 7/8/2020
+data['heart_rate'].fillna(0, inplace=True)
+
+print(data['heart_rate'].max(), "Highest heart rate achieved.")
+print(data['heart_rate'].median(), "Median heart rate.")
+print(data['heart_rate'].min(), "Lowest heart rate.")
+print(data['heart_rate'].max() - data['heart_rate'].min(), "Difference between max and min heart rate.")
+
+hr_log = []
+hr_progress = 0
+hr_count = 0
+hr_hold = data['heart_rate'].iloc[0]
+print(hr_hold)
+
+for row, value in data['heart_rate'].iteritems():
+	if value >= hr_progress:
+		hr_hold = hr_progress
+		hr_progress = value
+		hr_count = hr_count + 1
+		print(hr_hold, hr_progress, hr_count)
+	else :
+		hr_log.append(hr_progress)
+		hr_log.append(hr_count)
+print(hr_log)		
+print(hr_progress)
+
+		
+
 
 
 #Export DataFrame
