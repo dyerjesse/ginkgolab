@@ -155,26 +155,6 @@ print(data['heart_rate'].median(), "Median heart rate.")
 print(data['heart_rate'].min(), "Lowest heart rate.")
 print(data['heart_rate'].max() - data['heart_rate'].min(), "Difference between max and min heart rate.")
 
- 
-'''hr_log = []
-hr_progress = 0
-hr_count = 0
-hr_time_interval = 0.0
-hr_hold = data['heart_rate'].iloc[0]
-
-for row, value in data['heart_rate'].iteritems():
-	if value > hr_progress:
-		hr_hold = hr_progress
-		hr_progress = value
-		hr_count = 0
-		if hr_count == 0 :
-
-		print(hr_hold,",", hr_progress,",", hr_count)
-	else :
-		hr_progress = value
-		hr_count = hr_count + 1
-		print(hr_hold,",", hr_progress,",", hr_count)'''
-
 #Calculate recovery data.
 data['time_interval_float'].fillna(0, inplace=True)
 
@@ -201,10 +181,6 @@ for row, value in data['heart_rate'].iteritems():
 
 print(hr_log)
 print(time_hold)
-
-
-
-
 
 
 #Export DataFrame
