@@ -4,7 +4,7 @@ import datetime as dt
 from operator import truediv
 
 #DataFrame settings
-pd.set_option('display.max_rows', 50)
+pd.set_option('display.max_rows', 1000)
 pd.set_option('display.max_columns', 50)
 
 #Read JSON
@@ -155,25 +155,55 @@ print(data['heart_rate'].median(), "Median heart rate.")
 print(data['heart_rate'].min(), "Lowest heart rate.")
 print(data['heart_rate'].max() - data['heart_rate'].min(), "Difference between max and min heart rate.")
 
-hr_log = []
+ 
+'''hr_log = []
 hr_progress = 0
 hr_count = 0
+hr_time_interval = 0.0
 hr_hold = data['heart_rate'].iloc[0]
-print(hr_hold)
 
 for row, value in data['heart_rate'].iteritems():
-	if value >= hr_progress:
+	if value > hr_progress:
 		hr_hold = hr_progress
 		hr_progress = value
-		hr_count = hr_count + 1
-		print(hr_hold, hr_progress, hr_count)
-	else :
-		hr_log.append(hr_progress)
-		hr_log.append(hr_count)
-print(hr_log)		
-print(hr_progress)
+		hr_count = 0
+		if hr_count == 0 :
 
-		
+		print(hr_hold,",", hr_progress,",", hr_count)
+	else :
+		hr_progress = value
+		hr_count = hr_count + 1
+		print(hr_hold,",", hr_progress,",", hr_count)'''
+
+#Calculate recovery data.
+data['time_interval_float'].fillna(0, inplace=True)
+
+def hr_recovering(a, b):
+	if a < b:
+		return True
+	else :
+		return False
+
+hr_log = []
+holder = data['heart_rate'].iloc[0]
+time_hold = 0
+count = 0
+for row, value in data['heart_rate'].iteritems():
+	count = count + 1
+	print(hr_recovering(value, holder), ",", value,",", holder, ",", count, ",", time_hold)
+	if hr_recovering(value, holder) == True:
+		hr_log.append(value - holder)
+		hr_log.append(count)
+		time_hold = (data['time_interval_float'].loc[count])
+		hr_log.append(time_hold)
+		print(time_hold)
+	holder = value
+
+print(hr_log)
+print(time_hold)
+
+
+
 
 
 
