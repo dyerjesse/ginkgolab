@@ -44,7 +44,7 @@ function build() {
   convert();
 }
 
-const FILE_IN = './app/convert.csv';
+const FILE_IN = '../app/convert.csv';
 const FILE_OUT = './data/convert.json';
 
 function loadData(filename, resume) {
@@ -63,7 +63,7 @@ function convert() {
   const data = [];
   loadData(FILE_IN, (err, rawData) => {
     rawData.forEach((row, i) => {
-      console.log("convert row=" + JSON.stringify(row, null, 2));
+      console.log(JSON.stringify(row, null, 2));
       data.push(row);
     });
     fs.writeFile(FILE_OUT, JSON.stringify(data, null, 2), () => {

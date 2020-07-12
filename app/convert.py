@@ -1,6 +1,7 @@
 import json as json
 import pandas as pd
 import datetime as dt
+import numpy as np
 from operator import truediv
 
 #DataFrame settings
@@ -8,7 +9,13 @@ pd.set_option('display.max_rows', 1000)
 pd.set_option('display.max_columns', 50)
 
 #Read JSON
-data = pd.read_json(r'gcloopbike.json')
+data = pd.read_json(r'interval.json')
+
+#Drop extra row.
+data.drop(data.tail(1).index, inplace = True)
+
+#All inf replaced with na.
+data.replace([np.inf, -np.inf], np.nan)
 
 #This is where we convert our data. Version 1.0.0 _ 6/28/2020
 #Time.
@@ -26,12 +33,20 @@ data['speed_feet_sec'] = (data['speed'] * 3.28084)
 data['pace_min_mile'] = (60 / data['speed_mph'])
 data['pace_min_km'] = (60 / data['speed_kmh'])
 
+#Replace inf and nan with 0.
+data['speed_mph'].fillna(0, inplace=True)
+data['difference_in_speed_mph'].fillna(0, inplace=True)
+data['difference_in_speed_kmh'].fillna(0, inplace=True)
+data['speed_meters_sec'].fillna(0, inplace=True)
+data['speed_feet_sec'].fillna(0, inplace=True)
+data['pace_min_mile'].fillna(0, inplace=True)
+data['pace_min_km'].fillna(0, inplace=True)
+
 #Distance.
 data['distance_total_miles'] = (data['distance'] / 1609.344)
 data['distance_total_km'] = (data['distance'] / 1000)
 data['distance_interval_miles'] = (data['distance'].diff() * 3.28084 / 5280)
 data['distance_interval_km'] = (data['distance'].diff() / 1000)
-
 
 #Elevation and altitude.
 data['elevation_meters'] = data['altitude']
@@ -65,13 +80,11 @@ num_rows = float((max(total_rows)))
 #Heart rate
 data['heart_rate'] = data['heart_rate']
 data['hr_%'] = ((data['heart_rate'] / 194) * 100)
+data['hr_diff'] = data['heart_rate'].diff()
 data['average_hr'] = (data['heart_rate'].sum() / num_rows)
 
 #Calculate average hr.
 percent_average_hr = ((data['average_hr'] / 194) * 100) #print below
-
-#Calculate average stride length.
-
 
 #Calculate total number of rows.
 total_rows = []
@@ -165,24 +178,59 @@ def hr_recovering(a, b):
 		return False
 
 hr_log = []
+time_log = []
+recovery_log = []
 holder = data['heart_rate'].iloc[0]
 time_hold = 0
 count = 0
+start_count = 0
+recovery_hr_interval = 0
+recovery_hr_log = []
+recovery_time_interval = 0
+recovery_time_log = []
+is_recovery = 0
+
 for row, value in data['heart_rate'].iteritems():
 	count = count + 1
-	print(hr_recovering(value, holder), ",", value,",", holder, ",", count, ",", time_hold)
 	if hr_recovering(value, holder) == True:
 		hr_log.append(value - holder)
 		hr_log.append(count)
 		time_hold = (data['time_interval_float'].loc[count])
-		hr_log.append(time_hold)
-		print(time_hold)
+		time_log.append(time_hold)
+		time_log.append(count)
+		start_count = start_count + 1
+		recovery_hr_interval = recovery_hr_interval + (value - holder)
+		recovery_time_interval = recovery_time_interval + time_hold
+
+	else : 
+		if recovery_time_interval > 30 :
+			recovery_hr_log.append(recovery_hr_interval)
+			recovery_time_log.append(recovery_time_interval / 60)
+		recovery_hr_interval = 0
+		recovery_time_interval = 0
+
 	holder = value
 
-print(hr_log)
-print(time_hold)
+print("##############")
 
+def remove_values_from_list(the_list, val):
+   return [value for value in the_list if value != val]
 
+#Remove 0's from recovery logs.
+recovery_hr_log = remove_values_from_list(recovery_hr_log, 0)
+recovery_time_log = remove_values_from_list(recovery_time_log, 0)
+
+print(recovery_hr_log)
+print("##############")
+print(recovery_time_log)
+
+recovery_count = 0
+for value in recovery_hr_log :
+	if value < -15 :
+		for n in recovery_time_log:
+			print(n)
+			
 #Export DataFrame
 data.to_csv('convert.csv')
+print("Data exported to 'convert.csv'.")
 ##END##
