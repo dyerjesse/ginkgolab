@@ -1,17 +1,19 @@
 # ginkgolab
 ginkgo fitness app for data and fitness nuts a like.
 
+If you don't already have python 3 installed go to https://www.python.org/downloads/ and download the version best suited for your OS.
+
 If you don't already have python2 installed go to https://www.python.org/downloads/release/python-272/ and download the version best suited for your OS.
 
 If you don't already have pip installed:
 
 $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 
-next install pandas 
+next install pandas using pip
 
 $ pip install pandas
 
-Clone ginkgolab
+Clone ginkgolab into your users directory
 
 $ git clone git@github.com:dyerjesse/ginkgolab.git
 
@@ -40,6 +42,8 @@ Go back one directory
 $ cd ..
 
 Take a .fit and place it in users/fitparse/data directory.
+ 
+$ cd data
 
 Take a step back
 
@@ -61,7 +65,7 @@ Run t.py and dump the file to a JSON using :
 
 $ python2 t.py > "YOUROURFILE.json"
 
-Copy the exported json that you named that is now located in the tools directory t.py.
+Copy the exported json you named which is now located in the tools directory t.py.
 
 $ cd ../../
 
@@ -69,8 +73,14 @@ Enter app directory
 
 $ cd app
 
-Enter the ginkgolab.
+Open convert.py
 
-$ cd ginkgolab/app
+$ open convert.py
 
-Run convert.py with your own '*file.json' 
+Change the Read json line to:
+
+$ data = pd.read_json(r'YOURFILENAME.json')
+
+Save convert.py and run
+
+$ python convert.py
