@@ -1,7 +1,7 @@
 # ginkgolab
 ginkgo fitness app for data and fitness nuts a like.
 
-If you haven't already, install pythons package manager.
+If you don't already have pip installed:
 $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
 
 next install pandas 
