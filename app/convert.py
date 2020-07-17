@@ -5,11 +5,11 @@ import numpy as np
 from operator import truediv
 
 #DataFrame settings
-pd.set_option('display.max_rows', 1000)
+pd.set_option('display.max_rows', 50)
 pd.set_option('display.max_columns', 50)
 
 #Read JSON
-data = pd.read_json(r'interval.json')
+data = pd.read_json(r'10k.json')
 
 #Drop extra row.
 data.drop(data.tail(1).index, inplace = True)
