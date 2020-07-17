@@ -1,10 +1,10 @@
 # ginkgolab
 ginkgo fitness app for data and fitness nuts a like.
 
+If you don't already have python2 installed go to https://www.python.org/downloads/release/python-272/ and download the version best suited for your OS.
+
 If you don't already have pip installed:
 $ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
-
-If you don't already have python2 installed:
 
 next install pandas 
 $ pip install pandas
@@ -12,7 +12,10 @@ $ pip install pandas
 Clone ginkgolab
 $ git clone git@github.com:dyerjesse/ginkgolab.git
 
-Clone fitparse mod to fitparse
+Enter Ginkgolab directory
+cd ginkgolab
+
+Clone artcompiler mod of fitparse
 $ git clone git@github.com:artcompiler/fitparse.git
 
 Enter fitparse directory
@@ -23,8 +26,15 @@ $ git clone git@github.com:dtcooper/python-fitparse.git
 $ cd python-fitparse
 $ python setup.py install
 
+Go back one directory
+cd ..
+
 Take a .fit and place it in users/fitparse/data directory.
 
+Take a step back
+cd..
+
+Enter the tools directory
 $ cd ../tools
 
 Open t.py in editor
@@ -35,9 +45,11 @@ Modify the read file to the name of your fit file to match that of the fit file 
 
 $ fitfile = FitFile('./data/*YOURFILENAME*.fit')
 
-Run t.py using python 2 from the tools directory
+Run t.py and dump the file to a JSON using :
 
-$ python2 t.py
+$ python2 t.py > "YOUROURFILE.json"
+
+
 
 Enter the ginkgolab.
 cd ginkgolab/app
