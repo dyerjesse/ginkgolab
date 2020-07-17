@@ -54,6 +54,7 @@ $ cd ../../
 
 Enter app directory
 $ cd app
+
 Enter the ginkgolab.
 $ cd ginkgolab/app
 
