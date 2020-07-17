@@ -27,12 +27,12 @@ $ cd python-fitparse
 $ python setup.py install
 
 Go back one directory
-cd ..
+$ cd ..
 
 Take a .fit and place it in users/fitparse/data directory.
 
 Take a step back
-cd..
+$ cd..
 
 Enter the tools directory
 $ cd ../tools
@@ -53,8 +53,8 @@ Copy the exported json that you named that is now located in the tools directory
 $ cd ../../
 
 Enter app directory
-$cd app
+$ cd app
 Enter the ginkgolab.
-cd ginkgolab/app
+$ cd ginkgolab/app
 
 Run convert.py with your own '*file.json' 
