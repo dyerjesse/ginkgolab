@@ -50,12 +50,15 @@ Run t.py and dump the file to a JSON using :
 $ python2 t.py > "YOUROURFILE.json"
 
 Copy the exported json that you named that is now located in the tools directory t.py.
+
 $ cd ../../
 
 Enter app directory
+
 $ cd app
 
 Enter the ginkgolab.
+
 $ cd ginkgolab/app
 
 Run convert.py with your own '*file.json' 
