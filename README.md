@@ -7,7 +7,7 @@ If you don't already have python2 installed go to https://www.python.org/downloa
 
 If you don't already have pip installed:
 
-$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py
+`$ curl https://bootstrap.pypa.io/get-pip.py -o get-pip.py`
 
 next install pandas using pip
 
@@ -47,7 +47,7 @@ $ cd data
 
 Take a step back
 
-$ cd..
+$ cd ..
 
 Enter the tools directory
 
