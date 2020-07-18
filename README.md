@@ -11,76 +11,76 @@ If you don't already have pip installed:
 
 next install pandas using pip
 
-$ pip install pandas
+`$ pip install pandas`
 
 Clone ginkgolab into your users directory
 
-$ git clone git@github.com:dyerjesse/ginkgolab.git
+`$ git clone git@github.com:dyerjesse/ginkgolab.git`
 
 Enter Ginkgolab directory
 
-cd ginkgolab
+`cd ginkgolab`
 
 Clone artcompiler mod of fitparse
 
-$ git clone git@github.com:artcompiler/fitparse.git
+`$ git clone git@github.com:artcompiler/fitparse.git`
 
 Enter fitparse directory
 
-$ cd fitparse
+`$ cd fitparse`
 
 Clone fitparse and install dependencies
 
-$ git clone git@github.com:dtcooper/python-fitparse.git
+`$ git clone git@github.com:dtcooper/python-fitparse.git`
 
-$ cd python-fitparse
+`$ cd python-fitparse`
 
-$ python setup.py install
+`$ python setup.py install`
 
 Go back one directory
 
-$ cd ..
+`$ cd ..`
 
-Take a .fit and place it in users/fitparse/data directory.
+Take a `.fit` file and place it in `users/fitparse/data` directory.
  
-$ cd data
+`$ cd data`
 
 Take a step back
 
-$ cd ..
+`$ cd ..`
 
 Enter the tools directory
 
-$ cd ../tools
+`$ cd ../tools`
 
-Open t.py in editor
+Open `t.py` in editor
 
-$ open t.py
+`$ open t.py`
 
 Modify the read file to the name of your fit file to match that of the fit file you added in the data directory
 
-$ fitfile = FitFile('./data/*YOURFILENAME*.fit')
+`$ fitfile = FitFile('./data/*YOURFILENAME*.fit')`
 
-Run t.py and dump the file to a JSON using :
+Run `t.py` and dump the file to a JSON using:
 
-$ python2 t.py > "YOUROURFILE.json"
+`$ python2 t.py > "YOUROURFILE.json"`
 
 Copy the exported json you named which is now located in the tools directory t.py.
 
-$ cd ../../
+`$ cd ../../`
 
 Enter app directory
 
-$ cd app
+`$ cd app`
 
-Open convert.py
+Open `convert.py`
 
-$ open convert.py
+`$ open convert.py`
 
 Change the Read json line to:
 
-$ data = pd.read_json(r'YOURFILENAME.json')
+`$ data = pd.read_json(r'YOURFILENAME.json')`
 
-Save convert.py and run
+Save `convert.py` and run
 
-$ python convert.py
+`$ python convert.py`
