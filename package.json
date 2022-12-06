@@ -6,7 +6,7 @@
 	},
 	"dependencies": {
 		"csv-parser": "^2.3.3",
-		"express": "4.13.3"
+		"express": "4.17.3"
 	},
 	"author": "Jesse Dyer",
 	"License": "Jesse Dyer 2020"
